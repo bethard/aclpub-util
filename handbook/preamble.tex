@@ -221,7 +221,7 @@
 % #1 -- schedule items
 \newcommand{\schedule}[1]{%
 \section*{Overview}
-\begin{tabular}{ l @{} c @{} r p{0.7\textwidth} }
+\begin{tabular}{@{} l @{} c @{} r p{0.75\textwidth} @{} }
 #1
 \end{tabular}
 \clearpage}
@@ -240,15 +240,15 @@
 % #2 -- end time
 % #3 -- location
 % #4 -- parallel items
-\newcommand{\scheduleparallelsession}[4]{%
-#1 & -- & #2 & \textbf{Parallel Sessions} \ifthenelse{\isempty{#3}}{}{\hfill (#3)}\\
-#4
+\newcommand{\scheduleparallelsession}[3]{%
+#1 & -- & #2 & \textbf{Parallel Sessions}\\
+#3
 \\}
 
 % format one session in a set of parallel sessions in the schedule
 % #1 -- title
-\newcommand{\scheduleparallelsessionitem}[1]{%
- & & & \textit{#1} \\}
+\newcommand{\scheduleparallelsessionitem}[2]{%
+ & & & \textit{#1} \hfill (#2)\\}
 
 % format a set of abstracts for a session
 % #1 -- title

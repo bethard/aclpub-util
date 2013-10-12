@@ -36,10 +36,10 @@ schedule_format = r"""\schedule{{
 schedule_session_format = r"""\schedulesession{{{start}}}{{{end}}}{{{title}}}{{{location}}}
 """.format
 
-schedule_parallel_session_format = r"""\scheduleparallelsession{{{start}}}{{{end}}}{{{location}}}{{{items}}}
+schedule_parallel_session_format = r"""\scheduleparallelsession{{{start}}}{{{end}}}{{{items}}}
 """.format
 
-schedule_parallel_session_item_format = r"""\scheduleparallelsessionitem{{{title}}}
+schedule_parallel_session_item_format = r"""\scheduleparallelsessionitem{{{title}}}{{{location}}}
 """.format
 
 session_abstracts_format = r"""\sessionabstracts{{{title}}}{{{location}}}{{{chair}}}{{
@@ -90,9 +90,10 @@ if __name__ == "__main__":
                     schedule_items.append(schedule_parallel_session_format(
                         start=slot.start,
                         end=slot.end,
-                        location=session_locations[session.title],
                         items=''.join(
-                            schedule_parallel_session_item_format(title=session.title)
+                            schedule_parallel_session_item_format(
+                                title=session.title,
+                                location=session_locations[session.title])
                             for session in slot.sessions)))
             write(schedule_format(items=''.join(schedule_items)))
 
