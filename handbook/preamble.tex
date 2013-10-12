@@ -211,3 +211,73 @@
   \renewcommand{\leftheader}{#1}%
   \renewcommand{\rightheader}{#2}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% begin a day:
+% #1 -- day title
+\newcommand{\dayheading}[1]{%
+\chapter{#1}}
+
+% format the schedule for a day
+% #1 -- schedule items
+\newcommand{\schedule}[1]{%
+\section*{Overview}
+\begin{tabular}{ l @{} c @{} r l l r}
+#1
+\end{tabular}
+\clearpage}
+
+% format a (non-parallel) session in the schedule
+% #1 -- start time
+% #2 -- end time
+% #3 -- title
+% #4 -- location
+\newcommand{\schedulesession}[4]{%
+#1 & -- & #2 & \textbf{#3} & (#4)\\
+\\}
+
+% format a parallel session in the schedule
+% #1 -- start time
+% #2 -- end time
+% #3 -- location
+% #4 -- parallel items
+\newcommand{\scheduleparallelsession}[4]{%
+#1 & -- & #2 & \textbf{Parallel Sessions} & (#3)\\
+#4
+\\}
+
+% format one session in a set of parallel sessions in the schedule
+% #1 -- title
+\newcommand{\scheduleparallelsessionitem}[1]{%
+ & & & \textit{#1} \\}
+
+% format a set of abstracts for a session
+% #1 -- session title
+% #2 -- session abstracts
+\newcommand{\sessionabstracts}[2]{%
+\section{#1}
+\vspace{0.5em}
+#2
+\clearpage}
+
+% format a paper abstract
+% #1 -- start time
+% #2 -- end time
+% #3 -- title
+% #4 -- authors
+% #5 -- abstract
+\newcommand{\sessionabstract}[5]{%
+\noindent%
+\begin{minipage}{\linewidth}%
+\begin{center}
+\textbf{\normalsize #3}\\
+\normalsize  #4\\
+{\small #1--#2}\\
+\end{center}
+\end{minipage}\\[0.5em]
+\nopagebreak%
+\noindent%
+{\small #5}}
+
+% a separator to be added between abstracts
+\newcommand{\sessionabstractsep}{\vspace{1.5em}\par}
+

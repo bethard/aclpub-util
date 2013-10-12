@@ -15,44 +15,30 @@ book_begin = r"""\documentclass[twoside,makeidx]{book}
 
 """
 
-day_format = r"""\chapter{{{0}}}
-"""
+day_heading_format = r"""\dayheading{{{title}}}
+""".format
 
-day_overview_begin = r"""\section*{Overview}
-\begin{tabular}{ l @{} c @{} r l l }
-"""
+schedule_format = r"""\schedule{{
+{items}}}
+""".format
 
-day_overview_slot_format = r"""{0} & -- & {1} & \textbf{{{2}}} \hfill \\
-"""
+schedule_session_format = r"""\schedulesession{{{start}}}{{{end}}}{{{title}}}{{{location}}}
+""".format
 
-day_overview_subslot_format = r""" & & & \textit{{{0}}} \\
-"""
+schedule_parallel_session_format = r"""\scheduleparallelsession{{{start}}}{{{end}}}{{{location}}}{{{items}}}
+""".format
 
-day_overview_slot_end = r'''\\
-'''
+schedule_parallel_session_item_format = r"""\scheduleparallelsessionitem{{{title}}}
+""".format
 
-day_overview_end = r"""\end{tabular}
-\clearpage
-"""
+session_abstracts_format = r"""\sessionabstracts{{{title}}}{{
+{abstracts}}}
+""".format
 
-session_abstracts_begin_format = r"""\section{{{0}}}
-\vspace{{-1em}}
-"""
+session_abstract_format = r"""\sessionabstract{{{start}}}{{{end}}}{{{title}}}{{{authors}}}{{{abstract}}}
+""".format
 
-paper_format = r"""\par\vspace{{2em}}\noindent%
-\begin{{minipage}}{{\linewidth}}%
-\begin{{center}}
-\textbf{{\normalsize {0}}}\\
-\normalsize {1}\\
-{{\small {2}--{3}}}\\
-\end{{center}}
-\end{{minipage}}\\[0.5em]
-\nopagebreak%
-\noindent%
-{{\small {4}}}
-"""
-
-session_abstracts_end = r"""\clearpage
+session_abstract_separator = r"""\sessionabstractsep
 """
 
 book_end = """\end{document}
@@ -70,25 +56,44 @@ if __name__ == "__main__":
         write = handbook_file.write
         write(book_begin)
         for day in days:
-            write(day_format.format(day.title))
-            write(day_overview_begin)
+            # write day header
+            write(day_heading_format(title=day.title))
+
+            # write schedule for the day
+            schedule_items = []
             for slot in day.slots:
-                if len(slot.sessions) > 1:
-                    write(day_overview_slot_format.format(slot.start, slot.end, 'Parallel Sessions'))
+                if len(slot.sessions) == 1:
                     for session in slot.sessions:
-                        write(day_overview_subslot_format.format(session.title))
+                        schedule_items.append(schedule_session_format(
+                            start=slot.start,
+                            end=slot.end,
+                            title=session.title,
+                            location='TODO'))
                 else:
-                    for session in slot.sessions:
-                        write(day_overview_slot_format.format(slot.start, slot.end, session.title))
-                write(day_overview_slot_end)
-            write(day_overview_end)
+                    schedule_items.append(schedule_parallel_session_format(
+                        start=slot.start,
+                        end=slot.end,
+                        location='TODO',
+                        items=''.join(
+                            schedule_parallel_session_item_format(title=session.title)
+                            for session in slot.sessions)))
+            write(schedule_format(items=''.join(schedule_items)))
+
+            # write abstracts for the day
             for slot in day.slots:
                 for session in slot.sessions:
                     if session.papers:
-                        write(session_abstracts_begin_format.format(session.title))
-                        for paper in session.papers:
-                            authors = ', '.join(paper.authors)
-                            abstract = paper.abstract.strip().replace(r'\\', ' ').replace('\n', ' ')
-                            write(paper_format.format(paper.title, authors, paper.start, paper.end, abstract))
-                        write(session_abstracts_end)
+                        abstract_items = []
+                        for (i, paper) in enumerate(session.papers):
+                            if i != 0:
+                                abstract_items.append(session_abstract_separator)
+                            abstract_items.append(session_abstract_format(
+                                start=paper.start,
+                                end=paper.end,
+                                title=paper.title,
+                                authors=', '.join(paper.authors),
+                                abstract=paper.abstract.strip().replace(r'\\', ' ').replace('\n', ' ')))
+                        write(session_abstracts_format(
+                            title=session.title,
+                            abstracts=''.join(abstract_items)))
         write(book_end)
