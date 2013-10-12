@@ -37,7 +37,7 @@
 \usepackage[maxnames=25,minnames=3,babel=hyphen]{biblatex}
 \usepackage{bibentry}
 \usepackage{setspace}
-\usepackage{ifthen}
+\usepackage{xifthen}
 \usepackage{pstricks}
 \usepackage{rotating}
 \usepackage{makeidx}
@@ -251,12 +251,15 @@
  & & & \textit{#1} \\}
 
 % format a set of abstracts for a session
-% #1 -- session title
-% #2 -- session abstracts
-\newcommand{\sessionabstracts}[2]{%
+% #1 -- title
+% #2 -- location
+% #3 -- chair
+% #4 -- abstracts
+\newcommand{\sessionabstracts}[4]{%
 \section{#1}
-\vspace{0.5em}
-#2
+\noindent
+#2 \ifthenelse{\isempty{#3}}{}{\hfill Chair: #3}\\[2em]
+#4
 \clearpage}
 
 % format a paper abstract

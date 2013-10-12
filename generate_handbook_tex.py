@@ -42,7 +42,7 @@ schedule_parallel_session_format = r"""\scheduleparallelsession{{{start}}}{{{end
 schedule_parallel_session_item_format = r"""\scheduleparallelsessionitem{{{title}}}
 """.format
 
-session_abstracts_format = r"""\sessionabstracts{{{title}}}{{
+session_abstracts_format = r"""\sessionabstracts{{{title}}}{{{location}}}{{{chair}}}{{
 {abstracts}}}
 """.format
 
@@ -97,6 +97,7 @@ if __name__ == "__main__":
                 for session in slot.sessions:
                     if session.papers:
                         session_location = settings.session_locations[session.title]
+                        session_chair = settings.session_chairs[session.title]
                         abstract_items = []
                         for (i, paper) in enumerate(session.papers):
                             if i != 0:
@@ -111,5 +112,7 @@ if __name__ == "__main__":
                                 abstract=paper.abstract.strip().replace(r'\\', ' ').replace('\n', ' ')))
                         write(session_abstracts_format(
                             title=session.title,
+                            location=session_location,
+                            chair=session_chair,
                             abstracts=''.join(abstract_items)))
         write(book_end)
