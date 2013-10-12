@@ -57,8 +57,7 @@ book_end = """\end{document}
 """
 
 if __name__ == "__main__":
-    [book_dir] = sys.argv[1:]
-    handbook_path = "handbook/handbook.tex"
+    [book_dir, handbook_path] = sys.argv[1:]
 
     # read db file
     days = db.load(book_dir)
