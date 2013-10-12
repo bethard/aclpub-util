@@ -69,7 +69,7 @@ if __name__ == "__main__":
         for day in days:
             day_short_name = settings.day_short_names[day.title]
             session_locations = settings.day_session_locations[day.title]
-            session_chairs = settings.day_session_locations[day.title]
+            session_chairs = settings.day_session_chairs[day.title]
 
             # write day header
             write(day_heading_format(title=day.title))
