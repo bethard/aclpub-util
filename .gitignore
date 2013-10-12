@@ -1,0 +1,17 @@
+*.aux
+*.bcf
+*.idx
+*.log
+*.out
+*.pyc
+*.run.xml
+*.synctex.gz
+*.toc
+/Makefile
+/aclpub
+/archives
+/attachments
+/books
+/cdrom
+/handbook/handbook.tex
+/handbook/handbook.pdf
