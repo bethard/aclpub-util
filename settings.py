@@ -19,7 +19,7 @@ day_session_locations = {
         "Language Acquisition and Processing": "Leonesa  III",
         "NLP for Social Media I": "Eliza Anderson Amphitheater",
         "Break": "Leonesa Foyer",
-        "NLP Applications I": "Leonesa I and II ",
+        "NLP Applications I": "Leonesa I and II",
         "Semantics I": "Leonesa  III",
         "Language Resources": "Eliza Anderson Amphitheater",
         "Lunch": "", # no location
