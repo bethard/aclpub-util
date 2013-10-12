@@ -260,23 +260,25 @@
 \clearpage}
 
 % format a paper abstract
-% #1 -- start time
-% #2 -- end time
-% #3 -- title
-% #4 -- authors
-% #5 -- abstract
-\newcommand{\sessionabstract}[5]{%
+% #1 -- day
+% #2 -- start time
+% #3 -- end time
+% #4 -- location
+% #5 -- title
+% #6 -- authors
+% #7 -- abstract
+\newcommand{\sessionabstract}[7]{%
 \noindent%
 \begin{minipage}{\linewidth}%
 \begin{center}
-\textbf{\normalsize #3}\\
-\normalsize  #4\\
-{\small #1--#2}\\
+\textbf{\normalsize #5}\\
+\normalsize  #6\\
+{\small #1 #2--#3 --- #4}\\
 \end{center}
 \end{minipage}\\[0.5em]
 \nopagebreak%
 \noindent%
-{\small #5}}
+{\small #7}}
 
 % a separator to be added between abstracts
 \newcommand{\sessionabstractsep}{\vspace{1.5em}\par}

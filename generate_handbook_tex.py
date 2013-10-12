@@ -1,7 +1,9 @@
 #!/usr/bin/env python
-import db
 import codecs
 import sys
+
+import db
+import settings
 
 book_begin = r"""\documentclass[twoside,makeidx]{book}
 
@@ -44,7 +46,7 @@ session_abstracts_format = r"""\sessionabstracts{{{title}}}{{
 {abstracts}}}
 """.format
 
-session_abstract_format = r"""\sessionabstract{{{start}}}{{{end}}}{{{title}}}{{{authors}}}{{{abstract}}}
+session_abstract_format = r"""\sessionabstract{{{day}}}{{{start}}}{{{end}}}{{{location}}}{{{title}}}{{{authors}}}{{{abstract}}}
 """.format
 
 session_abstract_separator = r"""\sessionabstractsep
@@ -65,6 +67,8 @@ if __name__ == "__main__":
         write = handbook_file.write
         write(book_begin)
         for day in days:
+            day_short_name = settings.day_short_names[day.title]
+
             # write day header
             write(day_heading_format(title=day.title))
 
@@ -92,13 +96,16 @@ if __name__ == "__main__":
             for slot in day.slots:
                 for session in slot.sessions:
                     if session.papers:
+                        session_location = settings.session_locations[session.title]
                         abstract_items = []
                         for (i, paper) in enumerate(session.papers):
                             if i != 0:
                                 abstract_items.append(session_abstract_separator)
                             abstract_items.append(session_abstract_format(
+                                day=day_short_name,
                                 start=paper.start,
                                 end=paper.end,
+                                location=session_location,
                                 title=paper.title,
                                 authors=', '.join(paper.authors),
                                 abstract=paper.abstract.strip().replace(r'\\', ' ').replace('\n', ' ')))
