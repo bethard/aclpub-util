@@ -29,24 +29,32 @@ book_begin = r"""\documentclass[twoside,makeidx]{book}
 \setcounter{tocdepth}{2}
 \tableofcontents
 \mainmatter
+
 """
 
-day_format = r"\chapter{{{0}}}"
+day_format = r"""\chapter{{{0}}}
+"""
 
 day_overview_begin = r"""\section*{Overview}
-\begin{tabular}{ l @{} c @{} r l l }"""
+\begin{tabular}{ l @{} c @{} r l l }
+"""
 
-day_overview_slot_format = r"{0} & -- & {1} & \textbf{{{2}}} \hfill \\"
+day_overview_slot_format = r"""{0} & -- & {1} & \textbf{{{2}}} \hfill \\
+"""
 
-day_overview_subslot_format = r" & & & \textit{{{0}}} \\"
+day_overview_subslot_format = r""" & & & \textit{{{0}}} \\
+"""
 
-day_overview_slot_end = r'\\'
+day_overview_slot_end = r'''\\
+'''
 
 day_overview_end = r"""\end{tabular}
-\clearpage"""
+\clearpage
+"""
 
 session_abstracts_begin_format = r"""\section{{{0}}}
-\vspace{{-1em}}"""
+\vspace{{-1em}}
+"""
 
 paper_format = r"""\par\vspace{{2em}}\noindent%
 \begin{{minipage}}{{\linewidth}}%
@@ -58,40 +66,46 @@ paper_format = r"""\par\vspace{{2em}}\noindent%
 \end{{minipage}}\\[0.5em]
 \nopagebreak%
 \noindent%
-{{\small {4}}}"""
+{{\small {4}}}
+"""
 
-session_abstracts_end = r"\clearpage"""
+session_abstracts_end = r"""\clearpage
+"""
 
-book_end = """\end{document}"""
+book_end = """\end{document}
+"""
 
 if __name__ == "__main__":
     [book_dir] = sys.argv[1:]
+    handbook_path = "handbook/handbook.tex"
 
     # read db file
     days = db.load(book_dir)
 
-    # print out tex
-    print(book_begin)
-    for day in days:
-        print(day_format.format(day.title))
-        print(day_overview_begin)
-        for slot in day.slots:
-            if len(slot.sessions) > 1:
-                print(day_overview_slot_format.format(slot.start, slot.end, 'Parallel Sessions'))
+    # write out tex
+    with open(handbook_path, 'w') as handbook_file:
+        write = handbook_file.write
+        write(book_begin)
+        for day in days:
+            write(day_format.format(day.title))
+            write(day_overview_begin)
+            for slot in day.slots:
+                if len(slot.sessions) > 1:
+                    write(day_overview_slot_format.format(slot.start, slot.end, 'Parallel Sessions'))
+                    for session in slot.sessions:
+                        write(day_overview_subslot_format.format(session.title))
+                else:
+                    for session in slot.sessions:
+                        write(day_overview_slot_format.format(slot.start, slot.end, session.title))
+                write(day_overview_slot_end)
+            write(day_overview_end)
+            for slot in day.slots:
                 for session in slot.sessions:
-                    print(day_overview_subslot_format.format(session.title))
-            else:
-                for session in slot.sessions:
-                    print(day_overview_slot_format.format(slot.start, slot.end, session.title))
-            print(day_overview_slot_end)
-        print(day_overview_end)
-        for slot in day.slots:
-            for session in slot.sessions:
-                if session.papers:
-                    print(session_abstracts_begin_format.format(session.title))
-                    for paper in session.papers:
-                        authors = ', '.join(paper.authors)
-                        abstract = paper.abstract.strip().replace(r'\\', ' ').replace('\n', ' ')
-                        print(paper_format.format(paper.title, authors, paper.start, paper.end, abstract))
-                    print(session_abstracts_end)
-    print(book_end)
+                    if session.papers:
+                        write(session_abstracts_begin_format.format(session.title))
+                        for paper in session.papers:
+                            authors = ', '.join(paper.authors)
+                            abstract = paper.abstract.strip().replace(r'\\', ' ').replace('\n', ' ')
+                            write(paper_format.format(paper.title, authors, paper.start, paper.end, abstract))
+                        write(session_abstracts_end)
+        write(book_end)
