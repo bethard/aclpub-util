@@ -20,6 +20,9 @@ book_begin = r"""\documentclass[twoside,makeidx]{book}
 
 \begin{document}
 
+\frontmattter
+\input{frontmatter}
+
 \setcounter{tocdepth}{2}
 \tableofcontents
 \mainmatter
