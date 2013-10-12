@@ -215,7 +215,9 @@
 % begin a day:
 % #1 -- day title
 \newcommand{\dayheading}[1]{%
-\chapter{#1}}
+\chapter{#1}
+\renewcommand{\leftheader}{#1}
+\renewcommand{\rightheader}{#1}}
 
 % format the schedule for a day
 % #1 -- schedule items
