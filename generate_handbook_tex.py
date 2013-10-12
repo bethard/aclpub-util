@@ -68,6 +68,8 @@ if __name__ == "__main__":
         write(book_begin)
         for day in days:
             day_short_name = settings.day_short_names[day.title]
+            session_locations = settings.day_session_locations[day.title]
+            session_chairs = settings.day_session_locations[day.title]
 
             # write day header
             write(day_heading_format(title=day.title))
@@ -82,13 +84,13 @@ if __name__ == "__main__":
                             start=slot.start,
                             end=slot.end,
                             title=session.title,
-                            location='TODO'))
+                            location=session_locations[session.title]))
                 # parallel sessions
                 else:
                     schedule_items.append(schedule_parallel_session_format(
                         start=slot.start,
                         end=slot.end,
-                        location='TODO',
+                        location=session_locations[session.title],
                         items=''.join(
                             schedule_parallel_session_item_format(title=session.title)
                             for session in slot.sessions)))
@@ -98,8 +100,8 @@ if __name__ == "__main__":
             for slot in day.slots:
                 for session in slot.sessions:
                     if session.papers:
-                        session_location = settings.session_locations[session.title]
-                        session_chair = settings.session_chairs[session.title]
+                        session_location = session_locations[session.title]
+                        session_chair = session_chairs[session.title]
                         abstract_items = []
                         for (i, paper) in enumerate(session.papers):
                             if i != 0:

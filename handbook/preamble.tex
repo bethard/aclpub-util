@@ -221,7 +221,7 @@
 % #1 -- schedule items
 \newcommand{\schedule}[1]{%
 \section*{Overview}
-\begin{tabular}{ l @{} c @{} r l l r}
+\begin{tabular}{ l @{} c @{} r p{0.7\textwidth} }
 #1
 \end{tabular}
 \clearpage}
@@ -232,7 +232,7 @@
 % #3 -- title
 % #4 -- location
 \newcommand{\schedulesession}[4]{%
-#1 & -- & #2 & \textbf{#3} & (#4)\\
+#1 & -- & #2 & \textbf{#3} \ifthenelse{\isempty{#4}}{}{\hfill (#4)}\\
 \\}
 
 % format a parallel session in the schedule
@@ -241,7 +241,7 @@
 % #3 -- location
 % #4 -- parallel items
 \newcommand{\scheduleparallelsession}[4]{%
-#1 & -- & #2 & \textbf{Parallel Sessions} & (#3)\\
+#1 & -- & #2 & \textbf{Parallel Sessions} \ifthenelse{\isempty{#3}}{}{\hfill (#3)}\\
 #4
 \\}
 
@@ -256,11 +256,11 @@
 % #3 -- chair
 % #4 -- abstracts
 \newcommand{\sessionabstracts}[4]{%
+\clearpage
 \section{#1}
 \noindent
 #2 \ifthenelse{\isempty{#3}}{}{\hfill Chair: #3}\\[2em]
-#4
-\clearpage}
+#4}
 
 % format a paper abstract
 % #1 -- day
