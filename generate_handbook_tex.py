@@ -75,6 +75,7 @@ if __name__ == "__main__":
             # write schedule for the day
             schedule_items = []
             for slot in day.slots:
+                # non-parallel sessions
                 if len(slot.sessions) == 1:
                     for session in slot.sessions:
                         schedule_items.append(schedule_session_format(
@@ -82,6 +83,7 @@ if __name__ == "__main__":
                             end=slot.end,
                             title=session.title,
                             location='TODO'))
+                # parallel sessions
                 else:
                     schedule_items.append(schedule_parallel_session_format(
                         start=slot.start,
