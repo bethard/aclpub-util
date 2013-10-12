@@ -3,9 +3,20 @@
 
 # Mapping from full day names (in ACLPUB db) to short names
 day_short_names = {
+    'Friday, October 18, 2013': 'Friday',
     'Saturday, October 19, 2013': 'Saturday',
     'Sunday, October 20, 2013': 'Sunday',
     'Monday, October 21, 2013': 'Monday',
+}
+
+workshop_titles = {
+    'TextGraphs': 'TextGraphs-8: Graph-based Methods for Natural Language Processing',
+    'SPMRL': 'Statistical Parsing of Morphologically-Rich Languages',
+}
+
+workshop_locations = {
+    'TextGraphs': 'Eliza Anderson Amphitheater',
+    'SPMRL': 'Blewett Suite',
 }
 
 # Mapping from ACLPUB day names to ACLPUB session names to session locations
