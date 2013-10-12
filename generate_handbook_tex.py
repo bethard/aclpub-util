@@ -20,12 +20,11 @@ book_begin = r"""\documentclass[twoside,makeidx]{book}
 
 \begin{document}
 
-\frontmattter
+\frontmatter
 \input{frontmatter}
-
 \tableofcontents
-\mainmatter
 
+\mainmatter
 """
 
 day_heading_format = r"""\dayheading{{{title}}}
