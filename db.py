@@ -106,7 +106,12 @@ def load(book_dir):
                         pass
                     else:
                         raise Exception("Unsupported key: {0}".format(line))
-                days[-1].slots[-1].sessions[-1].papers.append(paper)
+                last_session = days[-1].slots[-1].sessions[-1]
+                if paper.start is None:
+                    paper.start = last_session.start
+                if paper.end is None:
+                    paper.end = last_session.end
+                last_session.papers.append(paper)
 
                 # add paper authors and abstract from metadata
                 paper_metadata_subpath = 'final/{0}/{0}_metadata.txt'.format(paper.id)
