@@ -57,7 +57,7 @@ def to_latex(text):
 
 
 def load(book_dir):
-    dash_regex = re.compile(u'[-\u2013\u2014]')
+    dash_regex = re.compile(u'[-\u2013\u2014]+')
     author_regex = re.compile(r'\nAuthor{[^}]*}{Firstname}#=%=#(.*)\nAuthor{[^}]*}{Lastname}#=%=#(.*)')
     abstract_regex = re.compile('^Abstract#==#(.*?)^Author{', re.MULTILINE | re.DOTALL)
 
