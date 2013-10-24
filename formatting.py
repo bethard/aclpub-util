@@ -1,3 +1,9 @@
+####################
+# This module defines the LaTeX that will be written out by the generate_*.py
+# scripts. As defined, this LaTeX assumes that various macros will be defined.
+# Currently, the necessary macros are defined in handbook/preamble.tex.
+####################
+
 book_begin = r"""\documentclass[twoside,makeidx]{book}
 
 %%%%%%%%%%%%%%%%%%%%

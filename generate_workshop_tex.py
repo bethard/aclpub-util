@@ -24,7 +24,7 @@ if __name__ == "__main__":
         for day in days:
             day_short_name = settings.day_short_names[day.title]
 
-            # write abstracts
+            # collect abstracts
             abstract_items = []
             for slot in day.slots:
                 for session in slot.sessions:
@@ -39,6 +39,8 @@ if __name__ == "__main__":
                             title=paper.title,
                             authors=', '.join(paper.authors),
                             abstract=paper.abstract.strip().replace(r'\\', ' ').replace('\n', ' ')))
+
+            # write out session containing abstracts
             write(formatting.session_abstracts_format(
                 title=title,
                 location=location,

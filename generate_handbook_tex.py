@@ -24,7 +24,7 @@ if __name__ == "__main__":
             # write day header
             write(formatting.day_heading_format(title=day.title))
 
-            # write schedule for the day
+            # collect schedule items for the day
             schedule_items = []
             for slot in day.slots:
                 # non-parallel sessions
@@ -45,6 +45,8 @@ if __name__ == "__main__":
                                 title=session.title,
                                 location=session_locations[session.title])
                             for session in slot.sessions)))
+
+            # write out schedule for the day
             write(formatting.schedule_format(items=''.join(schedule_items)))
 
             # write abstracts for the day
@@ -53,6 +55,8 @@ if __name__ == "__main__":
                     if session.papers:
                         session_location = session_locations[session.title]
                         session_chair = session_chairs[session.title]
+
+                        # collect abstracts for the session
                         abstract_items = []
                         for (i, paper) in enumerate(session.papers):
                             if i != 0:
@@ -65,9 +69,13 @@ if __name__ == "__main__":
                                 title=paper.title,
                                 authors=', '.join(paper.authors),
                                 abstract=paper.abstract.strip().replace(r'\\', ' ').replace('\n', ' ')))
+
+                        # write out abstracts for the session
                         write(formatting.session_abstracts_format(
                             title=session.title,
                             location=session_location,
                             chair=session_chair,
                             abstracts=''.join(abstract_items)))
+
+        # close off the document
         write(formatting.book_end)

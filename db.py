@@ -3,6 +3,10 @@ import itertools
 import os
 import re
 
+####################
+# Objects for representing the information stored in the START `db` file
+####################
+
 class Day(object):
     def __init__(self, title):
         self.title = title
@@ -31,6 +35,11 @@ class Paper(object):
         self.abstract = None
 
 def to_latex(text):
+    """Converts various unicode characters to LaTeX equivalents.
+
+    This function is far from complete, and will likely need some minor
+    updates for each new conference.
+    """
     replacements = [
         ('\\', r'\\'),
         (u'\u2018', "`"),
@@ -57,10 +66,13 @@ def to_latex(text):
 
 
 def load(book_dir):
+    """Returns a list of Day objects loaded from a book directory"""
+
     dash_regex = re.compile(u'[-\u2013\u2014]+')
     author_regex = re.compile(r'\nAuthor{[^}]*}{Firstname}#=%=#(.*)\nAuthor{[^}]*}{Lastname}#=%=#(.*)')
     abstract_regex = re.compile('^Abstract#==#(.*?)^Author{', re.MULTILINE | re.DOTALL)
 
+    # groups lines into papers ("P") and other items ("X")
     def grouper(line):
         if line.isspace():
             return ''
@@ -72,12 +84,18 @@ def load(book_dir):
     days = []
     with codecs.open(os.path.join(book_dir, 'db'), 'r', 'utf8') as db_file:
         for group_type, lines in itertools.groupby(db_file, grouper):
+
+            # a non-paper item may be a day or a session
             if group_type == 'X':
                 for line in lines:
                     [x, mark, title] = line.split(' ', 2)
                     title = title.strip()
+
+                    # days look like "X: * Saturday, October 19, 2013"
                     if mark == '*':
                         days.append(Day(title))
+
+                    # sessions look like "+ (7:30-9:00) Breakfast"
                     elif mark == '+' or mark == '=':
                         [time, title] = title.split(' ', 1)
                         [start, end] = dash_regex.split(time.strip('()'))
@@ -86,6 +104,14 @@ def load(book_dir):
                             or days[-1].slots[-1].end != end):
                             days[-1].slots.append(TimeSlot(start, end))
                         days[-1].slots[-1].sessions.append(Session(start, end, title))
+
+            # papers look like:
+            # P: <int>
+            # T: <string>
+            # A: <last>, <first>
+            # A: <last>, <first>
+            # ...
+            # H: <HH:MM>-<HH:MM>
             elif group_type == 'P':
                 paper = Paper()
                 for line in lines:

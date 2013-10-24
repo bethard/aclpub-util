@@ -9,11 +9,13 @@ day_short_names = {
     'Monday, October 21, 2013': 'Monday',
 }
 
+# Mapping from workshop abbreviations (as in ACLPUB CDROM tab) to full names
 workshop_titles = {
     'TextGraphs': 'TextGraphs-8: Graph-based Methods for Natural Language Processing',
     'SPMRL': 'Statistical Parsing of Morphologically-Rich Languages',
 }
 
+# Mapping from workshop abbreviations (as in ACLPUB CDROM tab) to locations
 workshop_locations = {
     'TextGraphs': 'Eliza Anderson Amphitheater',
     'SPMRL': 'Blewett Suite',
