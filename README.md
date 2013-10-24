@@ -117,7 +117,13 @@ attendees of the conference.
 This procedure is not fully automatic, but there are several scripts and LaTeX
 templates that should help you.
 
-1. Generate a partial draft of the handbook from the main conference papers:
+1. Specify various metadata not available via the START download, by modifying
+   `settings.py`.
+   You will need to specify short names for each day of the conference,
+   workshop titles and locations, locations for each session on each day,
+   and session chairs.
+
+2. Generate a partial draft of the handbook from the main conference papers:
    ```
    python generate_handbook_tex.py books/<abbrev> handbook/handbook.tex
    ```
@@ -133,7 +139,7 @@ templates that should help you.
    Note that the generated `handbook.tex` depends on the macros defined in
    `preamble.tex`, which is also in the `handbook` directory.
 
-2. Generate talk abstracts for each of the workshops:
+3. Generate talk abstracts for each of the workshops:
    ```
    python generate_workshop_tex.py books/<abbrev> handbook/handbook-<abbrev>.tex
    ```
@@ -143,7 +149,7 @@ templates that should help you.
    a single session for the workshop, containing all the workshop talk
    abstracts.
 
-3. Manually add all remaining material.
+4. Manually add all remaining material.
    This will typically include at least:
    * Filling in `handbook/frontmatter.tex` with pages for:
      * Conference title and logo
